@@ -26,7 +26,3 @@ Build and train a Multilayer Perceptron (MLP) neural network to classify mammary
 1. Cleaning missing data and handling outliers.
 2. Normalizing the data.
 3. Experimenting with different architectures, optimizers, and hyperparameter tuning.
-
-## License
-
-This project is licensed under the MIT License.
