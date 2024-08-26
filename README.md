@@ -21,7 +21,7 @@ False positives in mammograms can lead to unnecessary medical procedures and cau
 
 ## Objective
 
-Build and train a Multilayer Perceptron (MLP) neural network to classify mammary masses as benign or malignant based on the provided characteristics. The preprocessing of the data includes:
+Build and train a Multilayer Perceptron (MLP) neural network, and other models to classify mammary masses as benign or malignant based on the provided characteristics. The preprocessing of the data includes:
 
 1. Cleaning missing data and handling outliers.
 2. Normalizing the data.
