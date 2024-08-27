@@ -1,36 +1,36 @@
-import pandas as pd
-from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import StandardScaler
 
-file = "data/raw/mammographic_masses.data"
-col_names = ['BI-RADS', 'Age', 'Shape', 'Margin', 'Density', 'Severity']
 
-df = pd.read_csv(file, na_values=['?'], names=col_names)
-df.drop("BI-RADS", axis=1, inplace=True)
+def preprocess_data(dataframe):
+    """
+    Main function to preprocess the DataFrame.
 
-df.dropna(subset=["Age", "Shape", "Margin"], inplace=True)
+    Args:
+    dataframe: DataFrame containing the data to be processed.
 
-x_train = df[df["Density"].notnull()]
-x_train.drop("Density", axis=1, inplace=True)
-y_train = df[df["Density"].notnull()]["Density"]
-x_test = df[df["Density"].isnull()]
-x_test.drop("Density", axis=1, inplace=True)
-y_test = df[df["Density"].isnull()]["Density"]
+    Returns:
+    dict: A dictionary containing the transformed features and the target.
+    """
+    transformed_data = data_transformation(dataframe)
+    features = transformed_data["features"]
+    target = transformed_data["target"]
 
-model = RandomForestClassifier()
-model.fit(x_train, y_train)
+    scaler = StandardScaler()
+    features_scaled = scaler.fit_transform(features)
 
-y_predict = model.predict(x_test)
-df.loc[df["Density"].isnull(), "Density"] = y_predict
+    return {"features": features_scaled, "target": target}
 
-columns_to_scale = ['Age', 'Density', 'Margin', 'Shape']
+def data_transformation(dataframe):
+    """
+    Function to transform DataFrame data into numpy arrays.
 
-scaler = StandardScaler()
-scaler.fit(df[columns_to_scale])
-scaled_columns = scaler.transform(df[columns_to_scale])
+    Args:
+    dataframe: DataFrame containing the data to be transformed.
 
-scaled_df = pd.DataFrame(scaled_columns, columns=columns_to_scale, index=df.index)
-df[columns_to_scale] = scaled_df
+    Returns:
+    dict: A dictionary containing the features and the target.
+    """
+    features_transform = dataframe[["Age", "Shape", "Margin", "Density"]].values
+    target_transform = dataframe["Severity"].values
 
-output = "data/processed/processed_data.csv"
-df.to_csv(output, index=False)
+    return {"features": features_transform, "target": target_transform}
